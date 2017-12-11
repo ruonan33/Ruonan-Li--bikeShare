@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Bike Share: Starter Files</title>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v0.42.0/mapbox-gl.js'></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="./stations.js"></script>
+    <!-- CDN for jQuery -->
+    <link href='https://api.mapbox.com/mapbox-gl-js/v0.42.0/mapbox-gl.css' rel='stylesheet'/>
+
+
+    <style type="text/css">
+        html, body {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        .mapboxgl-marker {
+            background-image: url('mapbox-icon.png');
+            background-size: cover;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+
+        .gMark {
+            background: blue;
+        }
+
+        .yMark {
+            background: yellow;
+        }
+
+        .rMark {
+            background: red;
+        }
+
+
+    </style>
+
+</head>
+
+<body>
+<div id='map' style="width: 100%;height: 100%"></div>
+<script>
+    // REPLACE THE EMPTY ACCESS TOKEN WITH YOUR OWN TOKEN FROM MAP BOX (For your information: https://www.mapbox.com/mapbox-gl-js/api/)
+    mapboxgl.accessToken = 'pk.eyJ1IjoiZ2FuY2hlbnl1IiwiYSI6ImNqOTY4ZHBubTAyMDYyd21sdGo5azh0c2IifQ.0qlZvxwf4jYZL-H0_eWW9Q';
+    //init map
+    var map = new mapboxgl.Map({
+        container: 'map',
+        center: [-74, 40.7128],
+        zoom: 12,
+        style: 'mapbox://styles/mapbox/streets-v9'
+    });
+    const yellow = "yMark";
+    const green = "gMark";
+    const red = "rMark";
+    (function () {
+        for (var i = 0, len = stationList.length; i < len; i++) {
+            var el = document.createElement('div');
+            var item = stationList[i];
+
+            if (item.availableBikes <= 2) {
+                el.className = red;
+            }
+
+
+            if (item.availableBikes >= 3 && item.availableBikes <= 9) {
+                el.className = yellow;
+            }
+
+            if (item.availableBikes > 9) {
+                el.className = green;
+            }
+            var marker1 = new mapboxgl.Marker(el)
+                    .setLngLat([item.longitude, item.latitude])
+                    .addTo(map);
+        }
+    })();
+</script>
+</body>
+</html>
